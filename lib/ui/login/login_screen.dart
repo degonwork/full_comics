@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
+import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
 // import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
 // import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_state.dart';
 import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
@@ -7,6 +9,8 @@ import 'package:full_comics/data/models/service_models/auth_firebase_model-servi
 // import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
 import 'package:full_comics/main.dart';
 import 'package:full_comics/root_app/root_app.dart';
+import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
+import 'package:full_comics/ui/login/bloc/auth_event.dart';
 // import 'package:full_comics/ui/home/home_screen.dart';
 // import 'package:full_comics/ui/library/library_screen.dart';
 // import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
@@ -50,6 +54,7 @@ class Login extends StatelessWidget {
 }
 
 class LoginScreen extends StatefulWidget {
+
   const LoginScreen({super.key});
 
   @override
@@ -57,6 +62,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+   AuthBloc authBloc = AuthBloc(AuthRepo());
   final GlobalKey _formKey = GlobalKey();
   // AuthBloc? _authBloc;
   //  AuthenticationSerivce? _authenticationSerivce;
@@ -68,11 +74,11 @@ class _LoginScreenState extends State<LoginScreen> {
   // GoogleSignInAccount? account;
   // ValidationBloc _validationBloc = ValidationBloc();
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
   // _validationBloc = ValidationBloc();
-  // _appBloc = BlocProvider.of<AppBloc>(context);
+    authBloc = BlocProvider.of<AuthBloc>(context);
   // _authWithGoogle(context);
   // _authenticationSerivce = AuthenticationSerivce();
   // _authBloc = BlocProvider.of<AuthBloc>(context);
@@ -81,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
   //     this.account = account;
   //   });
   // });
-  // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -231,12 +237,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         CustomButton(
                           onPressed: () {
-                            context.read<LoginCubit>().state.status ==
-                                    LoginStatus.loading
-                                ? const CircularProgressIndicator()
-                                : context
-                                    .read<LoginCubit>()
-                                    .onLoginWithEmailAndPasswordPressed();
+                            // context.read<AuthBloc>().add(LoginEvent(password: "123456", email: "beonn@gmail.com"));
+                          //   context.read<LoginCubit>().state.status ==
+                          //           LoginStatus.loading
+                          //       ? const CircularProgressIndicator()
+                          //       : context
+                          //           .read<LoginCubit>()
+                          //           .onLoginWithEmailAndPasswordPressed();
+                            authBloc.add(LoginEvent(password: "123456", email: "dungnn@gmail.com"));
                           },
                           text: 'Đăng nhập',
                         ),

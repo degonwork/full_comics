@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
+import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
 // import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
 import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
 import 'package:full_comics/firebase_options.dart';
@@ -13,6 +14,7 @@ import 'package:full_comics/ui/case/case_screen.dart';
 import 'package:full_comics/ui/home/home_screen.dart';
 // import 'package:full_comics/ui/home/home_screen.dart';
 import 'package:full_comics/ui/library/library_screen.dart';
+import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
 // import 'package:full_comics/ui/home/home_screen.dart';
 // import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
 // import 'package:full_comics/ui/login/bloc/auth_state.dart';
@@ -50,9 +52,12 @@ class _MyAppState extends State<MyApp> {
       value: AuthenticationSerivce(),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<AppBloc>(
-            create: (context) =>
-                AppBloc(authenticationSerivce: AuthenticationSerivce()),
+          // BlocProvider<AppBloc>(
+          //   create: (context) =>
+          //       AppBloc(authenticationSerivce: AuthenticationSerivce()),
+          // ),
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(AuthRepo()),
           ),
           BlocProvider(
             create: (context) => BottombarBloc(),
@@ -65,7 +70,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
-          initialRoute: '$RootApp',
+          // initialRoute: '$RootApp',
           routes: {
             '$RootApp': (_) => const RootApp(),
             '$HomeScreen': (_) => const HomeScreen(),
@@ -75,7 +80,7 @@ class _MyAppState extends State<MyApp> {
             '$LoginScreen': (_) => const LoginScreen(),
             '$SignUpScreen': (_) => const SignUpScreen(),
           },
-          home: const RootApp(),
+          home: const LoginScreen(),
         ),
       ),
     );

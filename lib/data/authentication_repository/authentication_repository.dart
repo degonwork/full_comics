@@ -3,6 +3,8 @@
 
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:full_comics/config/constant.dart';
+import 'dart:convert';
+
 import 'package:full_comics/data/di/api_client.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
@@ -11,10 +13,12 @@ class AuthRepo{
   // final _firebaseAuth = FirebaseAuth.instance;
   final ApiClient _apiClient = ApiClient();
   Future<dynamic> login(String? email,String? password) async{
-    final response = await _apiClient.postLogin('https://reqres.in/api/login',{
-      "email": email,
-      "password":password,
-    });
+    final response = await _apiClient.postLogin('http://10.0.2.2:3000/auth/login',
+      jsonEncode(<String, String?>{
+        'email': email,
+        'password': password,
+      }),
+    );
     return response;
   }
   Future<dynamic> signUp(String? email, String? password) async{

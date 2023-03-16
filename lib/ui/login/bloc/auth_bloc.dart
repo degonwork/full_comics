@@ -90,14 +90,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginEvent>((event, emit)async {
       emit(AuthLoading());
       final result = await _authRepo.login(event.email, event.password);
-      print(result);
-      if (result != 'user not found') {
-        emit(AuthSuccess());
-        // print('Login success');
-      } else if(result == 'user not found'){
-        emit(AuthError('Missing password'));
-        print('Login Failed');
-      } 
+
+      // if (result != 'user not found') {
+      //   emit(AuthSuccess());
+      //   // print('Login success');
+      // } else if(result == 'user not found'){
+      //   emit(AuthError('Missing password'));
+      //   print('Login Failed');
+      // }
     }
     );
     // on<GoogleSignInRequested>((event, emit) async{
