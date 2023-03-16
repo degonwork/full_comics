@@ -1,0 +1,34 @@
+{
+  "project_info": {
+    "project_number": "958769104885",
+    "project_id": "full-comics",
+    "storage_bucket": "full-comics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958769104885:android:74b66997d93f239edb82bc",
+        "android_client_info": {
+          "package_name": "com.example.full_comics"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiI7n2JgqZObYEI5Ctnl_lDVDTO9rcl4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958769104885-ikaflag8kf71b48a43f156abcjl5qkqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
