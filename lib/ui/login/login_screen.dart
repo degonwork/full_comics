@@ -1,12 +1,16 @@
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:full_comics/config/size_config.dart';
 // import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
 // import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_state.dart';
 import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
 // import 'package:full_comics/data/models/validation_bloc/validation_bloc.dart';
 // import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
-import 'package:full_comics/main.dart';
-import 'package:full_comics/root_app/root_app.dart';
+
+import 'package:full_comics/ui/login/bloc/auth_event.dart';
 // import 'package:full_comics/ui/home/home_screen.dart';
 // import 'package:full_comics/ui/library/library_screen.dart';
 // import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
@@ -17,7 +21,10 @@ import 'package:full_comics/ui/sign_up_screen/sign_up_screen.dart';
 import 'package:full_comics/widget/custom_button.dart';
 
 // import 'package:full_comics/widget/custom_textfield.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
+
+// import '../../authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
+import 'bloc/auth_bloc.dart';
 
 // import 'package:path/path.dart';
 // import 'package:flutter/src/widgets/framework.dart';
@@ -32,7 +39,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(context.read<AuthenticationSerivce>()),
+      create: (_) => LoginCubit(context.read<AuthenticationSerivce>()),
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state.status == LoginStatus.failure) {
@@ -57,8 +64,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey _formKey = GlobalKey();
-  // AuthBloc? _authBloc;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  AuthBloc? _authBloc;
   //  AuthenticationSerivce? _authenticationSerivce;
   //  AppBloc? _appBloc;
   final TextEditingController email = TextEditingController();
@@ -68,23 +75,24 @@ class _LoginScreenState extends State<LoginScreen> {
   // GoogleSignInAccount? account;
   // ValidationBloc _validationBloc = ValidationBloc();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  // _validationBloc = ValidationBloc();
-  // _appBloc = BlocProvider.of<AppBloc>(context);
-  // _authWithGoogle(context);
-  // _authenticationSerivce = AuthenticationSerivce();
-  // _authBloc = BlocProvider.of<AuthBloc>(context);
-  // _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-  //   setState(() {
-  //     this.account = account;
-  //   });
-  // });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    // _validationBloc = ValidationBloc();
+    // _appBloc = BlocProvider.of<AppBloc>(context);
+    // _authWithGoogle(context);
+    // _authenticationSerivce = AuthenticationSerivce();
+    _authBloc = BlocProvider.of(context);
+    // _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+    //   setState(() {
+    //     this.account = account;
+    //   });
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.blue,
       body: SafeArea(
@@ -101,10 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           )),
-          padding: const EdgeInsets.only(
-            top: 20,
-            left: 15,
-            right: 15,
+          padding:  EdgeInsets.only(
+            top: SizeConfig.screenHeight / 75.6,
+            left: SizeConfig.screenWidth / 24,
+            right: SizeConfig.screenWidth / 24,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -115,7 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.topRight,
                   child: TextButton(
                       onPressed: () {
-                        navigatorKey.currentState!.popAndPushNamed('$RootApp');
+                        Navigator.pop(context);
+                        // navigatorKey.currentState!.popAndPushNamed('$RootApp');
                       },
                       child: const Text(
                         'Quay lại',
@@ -132,20 +141,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                             fontSize: 40, fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(
-                        height: 20,
+                       SizedBox(
+                        height: SizeConfig.screenHeight / 75.6 ,
                       ),
                       SizedBox(
-                        width: 100,
-                        height: 100,
+                        width: SizeConfig.screenHeight * 0.132,
+                        height: SizeConfig.screenWidth / 3.6,
                         child: Image.asset(
                             'assets/vo_luyen_dinh_phong/unnamed.png'),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: SizeConfig.screenHeight / 75.6,
                 ),
                 Form(
                   key: _formKey,
@@ -153,8 +162,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 20),
+                          padding:  EdgeInsets.symmetric(
+                              horizontal: SizeConfig.screenWidth / 36,
+                              vertical: SizeConfig.screenHeight / 75.6,
+                              ),
                           child: TextFormField(
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -165,8 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                               return null;
                             },
-                          
-                           
                             onChanged:
                                 context.read<LoginCubit>().onEmailChanged,
                             controller: email,
@@ -180,11 +189,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderRadius: BorderRadius.circular(20))),
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
+                         SizedBox(
+                          height: SizeConfig.screenHeight / 75.6,
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding:  EdgeInsets.symmetric(horizontal: SizeConfig.screenWidth / 36),
                           child: TextFormField(
                             onChanged:
                                 context.read<LoginCubit>().onPasswordChanged,
@@ -226,53 +235,57 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Quên mật khẩu ?',
                               style: TextStyle(color: Colors.yellow),
                             )),
-                        const SizedBox(
-                          height: 10,
+                         SizedBox(
+                          height: SizeConfig.screenHeight / 75.6,
                         ),
                         CustomButton(
                           onPressed: () {
+                            if(_formKey.currentState!.validate()){
                             context.read<LoginCubit>().state.status ==
                                     LoginStatus.loading
                                 ? const CircularProgressIndicator()
                                 : context
                                     .read<LoginCubit>()
                                     .onLoginWithEmailAndPasswordPressed();
+                            _authBloc!.add(LoginEvent(
+                                password: password.text, email: email.text));
+                          
+                            }
                           },
+                        
                           text: 'Đăng nhập',
                         ),
-                        const SizedBox(
-                          height: 30,
+                         SizedBox(
+                          height: SizeConfig.screenHeight / 37.8,
                         ),
                         const Center(child: Text('Bạn có thể đăng nhập với')),
-                        const SizedBox(
-                          height: 10,
+                         SizedBox(
+                          height: SizeConfig.screenHeight / 75.6,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 80,
-                              height: 80,
+                              width: SizeConfig.screenWidth / 4.5,
+                              height: SizeConfig.screenHeight / 9.45,
                               child: IconButton(
                                 icon: Image.asset(
                                     'assets/vo_luyen_dinh_phong/google_PNG19635.png',
                                     fit: BoxFit.cover),
-                                onPressed: () {
-                                  context
-                                      .read<LoginCubit>()
-                                      .onLoginWithGoogle();
+                                onPressed: () async{
+                                 context.read<LoginCubit>().onLoginWithGoogle();
                                 },
                               ),
                             ),
-                            const SizedBox(
-                              width: 10,
+                             SizedBox(
+                              width: SizeConfig.screenWidth / 36,
                             ),
                             IconButton(
                               iconSize: 50,
                               icon: const Icon(Icons.facebook_rounded),
-                              onPressed: () {},
-                              // icon: Image.asset(
-                              //     'assets/vo_luyen_dinh_phong/facebook_icon.png')
+                              onPressed: ()async {
+                               context.read<LoginCubit>().onLoginWithFacebook();
+                              },
                             ),
                           ],
                         ),
@@ -281,16 +294,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text('Bạn chưa có tài khoản ?'),
-                              const SizedBox(
-                                width: 10,
+                               SizedBox(
+                                width: SizeConfig.screenWidth / 36,
                               ),
                               TextButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignUpScreen()));
+                                    Navigator.push(context, PageRouteBuilder(
+                                      transitionDuration: const Duration(milliseconds: 400),
+                                      transitionsBuilder: (context,animation,secAnimation,child){
+                                        return SlideTransition(
+                                          position: Tween<Offset>(begin:const Offset(1, 0),end: Offset.zero).animate(animation),
+                                          child: child,
+                                          );
+                                      },
+                                      pageBuilder: (context,animation,secAnimation){
+                                        return const SignUpScreen();
+                                      }
+                                      ));
                                   },
                                   child: const Text(
                                     'Đăng ký ngay',

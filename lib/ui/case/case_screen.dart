@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:full_comics/config/size_config.dart';
 
 class CaseScreen extends StatefulWidget {
   const CaseScreen({super.key});
@@ -26,20 +27,11 @@ class _CaseScreenState extends State<CaseScreen> with SingleTickerProviderStateM
     }
   @override
   Widget build(BuildContext context) {
-    return   SafeArea(
-      child:  Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [Colors.yellow,Colors.blue])
-            ),
-          ),
-          bottom: TabBar(
-            tabs: tabs,
-            controller: _tabController,
-          ),
-        ),
-        body: Container(
+    SizeConfig().init(context);
+    return   Scaffold(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.04),
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -51,14 +43,40 @@ class _CaseScreenState extends State<CaseScreen> with SingleTickerProviderStateM
               end: Alignment.bottomCenter,
               )
           ),
-          child: TabBarView(
-            controller: _tabController,
-            children: const [
-              Reading(),
-              Favourite(),
-              ReadOffline(),
+          child: Column(
+            
+            children: [
+              TabBar(
+                controller: _tabController,
+                tabs: tabs,
+                unselectedLabelColor: Colors.black,
+                labelStyle: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w400,
+                ),
+                ),
+              Expanded(
+                child: TabBarView(
+                  physics: const ClampingScrollPhysics(),
+                  controller: _tabController,
+                  children: const [
+                    Reading(),
+                    Favourite(),
+                    ReadOffline(),
+                  ],
+                  ),
+              ),
             ],
           ),
+          // child: TabBarView(
+          //   controller: _tabController,
+          //   children: const [
+          //     Reading(),
+          //     Favourite(),
+          //     ReadOffline(),
+          //   ],
+          // ),
         ),
       ),
     );
@@ -70,8 +88,47 @@ class Reading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      // color: Colors.red,
+    return  const SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+    //   child: Column(
+    //     children: [
+    //       Container(
+    //         height: 60,
+    //         width: double.infinity,
+    //         color: Colors.red,
+    //       ),
+    // const      SizedBox(height: 20,),
+    //         Container(
+    //         height: 100,
+    //          width: double.infinity,
+    //         color: Colors.red,
+    //       ),
+    //       const SizedBox(height: 100,),
+    //         Container(
+    //         height: 20,
+    //          width: double.infinity,
+    //         color: Colors.red,
+    //       ),
+    //       const SizedBox(height: 200,),
+    //         Container(
+    //         height: 20,
+    //          width: double.infinity,
+    //         color: Colors.amber,
+    //       ),
+    //       const SizedBox(height: 200,),
+    //         Container(
+    //         height: 20,
+    //          width: double.infinity,
+    //         color: Colors.amber,
+    //       ),
+    //       const SizedBox(height: 200,),
+    //         Container(
+    //         height: 20,
+    //          width: double.infinity,
+    //         color: Colors.amber,
+    //       ),
+    //     ],
+    //   ),
     );
   }
 }

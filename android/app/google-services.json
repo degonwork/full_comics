@@ -12,7 +12,16 @@
           "package_name": "com.example.full_comics"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "958769104885-2l0i0o1e7vl77t86vv4hvvhj49cphd7v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.full_comics",
+            "certificate_hash": "dfe12ed4201c2a0c892396ebce6ae4710e601a7f"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCiI7n2JgqZObYEI5Ctnl_lDVDTO9rcl4k"
@@ -22,8 +31,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "958769104885-ikaflag8kf71b48a43f156abcjl5qkqn.apps.googleusercontent.com",
+              "client_id": "958769104885-f024v3kd62vvkbbkudj0qsgacj5a2rst.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "958769104885-duqtsti2cs6tv654g0i4acf2slbj6kph.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fullComics"
+              }
             }
           ]
         }

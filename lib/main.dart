@@ -1,33 +1,55 @@
 import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
-// import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
+import 'package:full_comics/data/repo/authentication_repository/authentication_repository.dart';
 import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
+import 'package:full_comics/data/repo/manga_repo/all_new_manga_repo.dart';
+import 'package:full_comics/data/repo/manga_repo/hot_commic_repo.dart';
+import 'package:full_comics/data/repo/manga_repo/new_commic_repo.dart';
 import 'package:full_comics/firebase_options.dart';
 import 'package:full_comics/root_app/bottombar_bloc/bottombar_bloc.dart';
 import 'package:full_comics/root_app/root_app.dart';
 import 'package:full_comics/ui/case/case_screen.dart';
+import 'package:full_comics/ui/home/child_screen/all_new_manga/cubit/fetch_all_new_manga_cubit.dart';
+import 'package:full_comics/ui/home/child_screen/hot_manga/cubit/fetch_hot_manga_cubit.dart';
+import 'package:full_comics/ui/home/child_screen/new_manga/cubit/fetch_new_manga_cubit.dart';
 import 'package:full_comics/ui/home/home_screen.dart';
-// import 'package:full_comics/ui/home/home_screen.dart';
+import 'package:full_comics/ui/home/child_screen/notifi_screen/notifi_screen.dart';
 import 'package:full_comics/ui/library/library_screen.dart';
-// import 'package:full_comics/ui/home/home_screen.dart';
-// import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
-// import 'package:full_comics/ui/login/bloc/auth_state.dart';
+import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
 import 'package:full_comics/ui/login/cubit/login_cubit.dart';
 import 'package:full_comics/ui/login/login_screen.dart';
 import 'package:full_comics/ui/profile/profile_screen.dart';
 import 'package:full_comics/ui/sign_up_screen/cubit/sign_up_cubit.dart';
-// import 'package:full_comics/ui/sign_up_screen/cubit/sign_up_cubit.dart';
 import 'package:full_comics/ui/sign_up_screen/sign_up_screen.dart';
+import 'package:full_comics/ui/splash/splash_screen.dart';
 
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  
+  await Firebase.initializeApp();
+
+  // print("Handling a background message: ${message.messageId}");
+}
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // final fcmToken = await FirebaseMessaging.instance.getToken();
+
+
+   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  // print('Got a message whilst in the foreground!');
+  // print('Message data: ${message.data}');
+
+  if (message.notification != null) {
+    // print('Message also contained a notification: ${message.notification}');
+  }
+});
   final authencationService = AuthenticationSerivce();
   await authencationService.user.first;
   runApp(MyApp(authenticationSerivce: authencationService));
@@ -36,7 +58,7 @@ Future<void> main() async {
 class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.authenticationSerivce});
   final AuthenticationSerivce authenticationSerivce;
-
+  
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -50,6 +72,18 @@ class _MyAppState extends State<MyApp> {
       value: AuthenticationSerivce(),
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<FetchAllNewMangaCubit>(
+            create: (context) => FetchAllNewMangaCubit(allNewMangaRepo: AllNewMangaRepo())..fetchAllNewManga()
+            ),
+          BlocProvider<FetchNewMangaCubit>(
+            create: (context) => FetchNewMangaCubit(newCommicRepo: NewCommicRepo())..fetchNewManga()
+            ),
+          BlocProvider<FetchHotCommicCubit>(
+            create: (context) => FetchHotCommicCubit(hotMangaRepo:  HotCommicRepo())..fetchHotCommic()
+            ),
+          BlocProvider(
+            create: (context) => AuthBloc(AuthRepo()),
+            ),
           BlocProvider<AppBloc>(
             create: (context) =>
                 AppBloc(authenticationSerivce: AuthenticationSerivce()),
@@ -65,8 +99,9 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
-          initialRoute: '$RootApp',
+          initialRoute: '$SplashScreen',
           routes: {
+            '$SplashScreen': (_) => const SplashScreen(),
             '$RootApp': (_) => const RootApp(),
             '$HomeScreen': (_) => const HomeScreen(),
             '$CaseScreen': (_) => const CaseScreen(),
@@ -74,6 +109,8 @@ class _MyAppState extends State<MyApp> {
             '$ProfileScreen': (_) => const ProfileScreen(),
             '$LoginScreen': (_) => const LoginScreen(),
             '$SignUpScreen': (_) => const SignUpScreen(),
+            // '$MangaDetail':(_) => const MangaDetail(),
+            '$NotifiScreen':(_) => const NotifiScreen(),
           },
           home: const RootApp(),
         ),

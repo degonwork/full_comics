@@ -3,14 +3,12 @@
 
   import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
-import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_state.dart';
+// import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
+// import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_state.dart';
 import 'package:full_comics/root_app/bottombar_bloc/bottombar_bloc.dart';
 import 'package:full_comics/root_app/bottombar_bloc/bottombar_event.dart';
 import 'package:full_comics/root_app/bottombar_bloc/bottombar_state.dart';
-import 'package:full_comics/ui/login/login_screen.dart';
-import 'package:full_comics/widget/bottombar.dart';
-import 'package:path/path.dart';
+import 'package:full_comics/root_app/widget/bottombar.dart';
 
 import '../ui/case/case_screen.dart';
 import '../ui/home/home_screen.dart';
@@ -35,7 +33,7 @@ class RootApp extends StatelessWidget {
           body: state.currentScreen,
           bottomNavigationBar: Bottombar(
             currentIndex: state.navigatorValue,
-            onTap: (int value){
+            onTap: (int value ){
               context.read<BottombarBloc>().add(ChangeBottombarEvent(listScreen[value]));
             },
           ),
