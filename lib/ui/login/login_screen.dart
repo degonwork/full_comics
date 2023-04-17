@@ -9,7 +9,6 @@ import 'package:full_comics/config/size_config.dart';
 import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
 // import 'package:full_comics/data/models/validation_bloc/validation_bloc.dart';
 // import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
-
 import 'package:full_comics/ui/login/bloc/auth_event.dart';
 // import 'package:full_comics/ui/home/home_screen.dart';
 // import 'package:full_comics/ui/library/library_screen.dart';
@@ -57,6 +56,7 @@ class Login extends StatelessWidget {
 }
 
 class LoginScreen extends StatefulWidget {
+
   const LoginScreen({super.key});
 
   @override

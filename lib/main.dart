@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
             // '$MangaDetail':(_) => const MangaDetail(),
             '$NotifiScreen':(_) => const NotifiScreen(),
           },
-          home: const RootApp(),
+          home: const LoginScreen(),
         ),
       ),
     );
