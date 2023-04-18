@@ -10,7 +10,7 @@ class FetchHotMangaState extends Equatable{
 class FetchInitial extends FetchHotMangaState{}
 class FetchLoading extends FetchHotMangaState{}
 class FetchLoaded extends FetchHotMangaState{
-  final List<HotComic> listHotCommic;
+  final List<HotCommic> listHotCommic;
   const FetchLoaded({required this.listHotCommic});
   @override
   List<Object> get props => [listHotCommic];

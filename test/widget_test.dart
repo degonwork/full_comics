@@ -7,14 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
 
 import 'package:full_comics/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(  MyApp(authenticationSerivce: AuthenticationSerivce(),));
+    await tester.pumpWidget(const MyApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

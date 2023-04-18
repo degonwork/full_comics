@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/src/widgets/framework.dart';
-// import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:full_comics/config/size_config.dart';
-// import 'package:formz/formz.dart';
-// import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
-import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
-// import 'package:full_comics/data/models/validation_bloc/validation_bloc.dart';
 import 'package:full_comics/main.dart';
-
-// import 'package:full_comics/root_app/root_app.dart';
-// import 'package:full_comics/ui/home/home_screen.dart';
 import 'package:full_comics/ui/sign_up_screen/cubit/sign_up_cubit.dart';
 import 'package:full_comics/ui/sign_up_screen/cubit/sign_up_state.dart';
 import 'package:full_comics/widget/custom_button.dart';
@@ -26,7 +17,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignUpCubit(context.read<AuthenticationSerivce>()),
+      create: (context) => SignUpCubit(),
       child: const SignUpForm(),
     );
   }
@@ -40,7 +31,7 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  final GlobalKey<FormState>  _formKey2 = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
@@ -73,7 +64,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 end: Alignment.bottomCenter,
               ),
             ),
-            padding:  EdgeInsets.only(
+            padding: EdgeInsets.only(
               top: SizeConfig.screenHeight / 37.8,
               left: SizeConfig.screenWidth / 24,
               right: SizeConfig.screenWidth / 24,
@@ -105,15 +96,16 @@ class _SignUpFormState extends State<SignUpForm> {
                       ),
                     ),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: SizeConfig.screenHeight / 37.8,
                   ),
                   SizedBox(
                     width: SizeConfig.screenWidth / 3.6,
                     height: SizeConfig.screenHeight / 7.56,
-                    child: Image.asset('assets/vo_luyen_dinh_phong/unnamed.png'),
+                    child:
+                        Image.asset('assets/vo_luyen_dinh_phong/unnamed.png'),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: SizeConfig.screenHeight / 30.24,
                   ),
                   Form(
@@ -147,10 +139,10 @@ class _SignUpFormState extends State<SignUpForm> {
                             //   ),
                             // ),
                             Padding(
-                              padding:  EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.screenWidth / 36,
-                                   vertical: SizeConfig.screenHeight / 50.4,
-                                   ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.screenWidth / 36,
+                                vertical: SizeConfig.screenHeight / 50.4,
+                              ),
                               child: TextFormField(
                                 onChanged:
                                     context.read<SignUpCubit>().onEmailChanged,
@@ -174,17 +166,19 @@ class _SignUpFormState extends State<SignUpForm> {
                                     ),
                                     hintText: 'Email',
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(20))),
+                                        borderRadius:
+                                            BorderRadius.circular(20))),
                               ),
                             ),
                             Padding(
-                              padding:  EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.screenWidth / 36,
-                                  vertical: SizeConfig.screenHeight / 50.4,
-                                  ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.screenWidth / 36,
+                                vertical: SizeConfig.screenHeight / 50.4,
+                              ),
                               child: TextFormField(
-                                onChanged:
-                                    context.read<SignUpCubit>().onPasswordChanged,
+                                onChanged: context
+                                    .read<SignUpCubit>()
+                                    .onPasswordChanged,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 textInputAction: TextInputAction.next,
@@ -221,13 +215,14 @@ class _SignUpFormState extends State<SignUpForm> {
                               ),
                             ),
                             Padding(
-                              padding: 
-                               EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.screenWidth / 36,
-                                   vertical: SizeConfig.screenHeight / 50.4,
-                                   ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.screenWidth / 36,
+                                vertical: SizeConfig.screenHeight / 50.4,
+                              ),
                               child: TextFormField(
-                                onChanged: context.read<SignUpCubit>().onPasswordChanged,
+                                onChanged: context
+                                    .read<SignUpCubit>()
+                                    .onPasswordChanged,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 textInputAction: TextInputAction.next,
@@ -263,15 +258,15 @@ class _SignUpFormState extends State<SignUpForm> {
                                     )),
                               ),
                             ),
-                             SizedBox(
+                            SizedBox(
                               height: SizeConfig.screenHeight / 25.2,
                             ),
                             CustomButton(
                               onPressed: () {
                                 if (_formKey2.currentState!.validate()) {
-                                context
-                                    .read<SignUpCubit>()
-                                    .onSignUpEmailAndPassword();
+                                  // context
+                                  //     .read<SignUpCubit>()
+                                  //     .onSignUpEmailAndPassword();
                                 }
                               },
                               text: "Đăng ký",

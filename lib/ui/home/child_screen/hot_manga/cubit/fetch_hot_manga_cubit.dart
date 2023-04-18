@@ -6,12 +6,14 @@ import 'package:full_comics/ui/home/child_screen/hot_manga/cubit/fetch_hot_manga
 class FetchHotCommicCubit extends Cubit<FetchHotMangaState> {
   final HotCommicRepo hotMangaRepo;
    FetchHotCommicCubit({required this.hotMangaRepo}) : super(FetchInitial());
-   Future<void> fetchHotCommic() async {
+
+   Future<void> fetchHotCommics() async {
     emit(FetchLoading());
     try {
-      final List<HotComic> listHotCommic = await hotMangaRepo.fetchHotComics();
+      final List<HotCommic> listHotCommic = await hotMangaRepo.fetchHotCommics();
       emit(FetchLoaded(listHotCommic: listHotCommic));
     } catch (e) {
+      print(e.toString());
       emit(FetchError());
       // print(e.toString());
     }

@@ -45,7 +45,7 @@ class NewManga extends StatelessWidget {
                             height: SizeConfig.screenHeight / 4.2,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(image: NetworkImage(listNewCommic[index].image),fit: BoxFit.fill),
+                              image: DecorationImage(image: NetworkImage(listNewCommic[index].image.image_thumnail_rectangle!),fit: BoxFit.fill),
                             ),
                           ),
                         ),

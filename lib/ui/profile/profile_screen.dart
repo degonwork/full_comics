@@ -1,14 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
-import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_state.dart';
 import 'package:full_comics/config/size_config.dart';
-import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
 import 'package:full_comics/main.dart';
 import 'package:full_comics/ui/home/child_screen/notifi_screen/notifi_screen.dart';
-
 import 'package:full_comics/ui/profile/child_screen/rate_screen.dart';
 import 'package:full_comics/ui/profile/child_screen/setup_screen.dart';
 import 'package:full_comics/ui/profile/child_screen/invite_screen.dart';
@@ -34,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       SetupScreen(),
     ];
     final ImagePicker image = ImagePicker();
-    final user = context.select((AppBloc appBloc) => appBloc.state.user);
+    // final user = context.select((AppBloc appBloc) => appBloc.state.user);
     List<String> list = const [
       'Thông báo',
       'Giới thiệu bạn bè',
@@ -73,16 +68,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               children: [
                 Container(
-                  margin:  EdgeInsets.only(
+                  margin: EdgeInsets.only(
                     top: SizeConfig.screenHeight / 75.6,
                     left: SizeConfig.screenWidth / 18,
-                    right: SizeConfig.screenWidth /18,
-                      ),
-                  padding:
-                       EdgeInsets.symmetric(
-                        horizontal: SizeConfig.screenWidth / 24,
-                        vertical: SizeConfig.screenHeight / 50.4
-                         ),
+                    right: SizeConfig.screenWidth / 18,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.screenWidth / 24,
+                      vertical: SizeConfig.screenHeight / 50.4),
                   height: MediaQuery.of(context).size.height / 2.85,
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -97,114 +90,91 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        
                         children: [
-                         CircleAvatar(
+                          CircleAvatar(
                             radius: SizeConfig.screenWidth / 9,
-                            child: user.photo != null
-                                ? CircleAvatar(
-                                    radius: 40,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(40),
-                                      child: Image.network(
-                                        user.photo!,
-                                        fit: BoxFit.scaleDown,
+                            child: InkWell(
+                              onTap: () {
+                                showBottomSheet(
+                                  builder: (context) {
+                                    return Container(
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10)),
                                       ),
-                                    ),
-                                  )
-                                : InkWell(
-                                    onTap: () {
-                                      showBottomSheet(
-                                        builder: (context) {
-                                          return Container(
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(10),
-                                                  topRight:
-                                                      Radius.circular(10)),
-                                            ),
-                                            height: SizeConfig.screenHeight / 5.4,
-                                            width: SizeConfig.screenWidth,
-                                            margin:  EdgeInsets.symmetric(
-                                              horizontal: SizeConfig.screenWidth / 18,
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                const Text(
-                                                  "Chọn ảnh từ",
-                                                  style:
-                                                      TextStyle(fontSize: 20),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    ElevatedButton.icon(
-                                                      onPressed: () =>
-                                                          takePhoto(ImageSource
-                                                              .camera),
-                                                      icon: const Icon(
-                                                          Icons.camera),
-                                                      label: const Text(
-                                                          "Chụp ảnh"),
-                                                    ),
-                                                    ElevatedButton.icon(
-                                                      onPressed: () =>
-                                                          takePhoto(ImageSource
-                                                              .gallery),
-                                                      icon: const Icon(
-                                                          Icons.image),
-                                                      label: const Text(
-                                                          "Thư viện"),
-                                                    ),
-                                                  ],
-                                                ),
-                                                ElevatedButton.icon(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  icon: imageFile != null
-                                                      ? const Icon(Icons
-                                                          .save_alt_outlined)
-                                                      : const Icon(
-                                                          Icons.cancel),
-                                                  label: imageFile != null
-                                                      ? const Text('Lưu')
-                                                      : const Text(' Hủy bỏ'),
-                                                )
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        context: context,
-                                      );
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      radius: 40,
-                                      backgroundImage: imageFile != null
-                                          ? Image.file(File(imageFile!.path))
-                                              .image
-                                          : Image.asset(
-                                                  'assets/vo_luyen_dinh_phong/person_icon.png')
-                                              .image,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(40),
-                                        child: imageFile != null
-                                            ? Image.file(
-                                                File(imageFile!.path),
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.asset(
-                                                'assets/vo_luyen_dinh_phong/person_icon.png',
-                                                fit: BoxFit.cover,
+                                      height: SizeConfig.screenHeight / 5.4,
+                                      width: SizeConfig.screenWidth,
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: SizeConfig.screenWidth / 18,
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          const Text(
+                                            "Chọn ảnh từ",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              ElevatedButton.icon(
+                                                onPressed: () => takePhoto(
+                                                    ImageSource.camera),
+                                                icon: const Icon(Icons.camera),
+                                                label: const Text("Chụp ảnh"),
                                               ),
+                                              ElevatedButton.icon(
+                                                onPressed: () => takePhoto(
+                                                    ImageSource.gallery),
+                                                icon: const Icon(Icons.image),
+                                                label: const Text("Thư viện"),
+                                              ),
+                                            ],
+                                          ),
+                                          ElevatedButton.icon(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            icon: imageFile != null
+                                                ? const Icon(
+                                                    Icons.save_alt_outlined)
+                                                : const Icon(Icons.cancel),
+                                            label: imageFile != null
+                                                ? const Text('Lưu')
+                                                : const Text(' Hủy bỏ'),
+                                          )
+                                        ],
                                       ),
-                                    ),
-                                  ),
+                                    );
+                                  },
+                                  context: context,
+                                );
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 40,
+                                backgroundImage: imageFile != null
+                                    ? Image.file(File(imageFile!.path)).image
+                                    : Image.asset(
+                                            'assets/vo_luyen_dinh_phong/person_icon.png')
+                                        .image,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(40),
+                                  child: imageFile != null
+                                      ? Image.file(
+                                          File(imageFile!.path),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'assets/vo_luyen_dinh_phong/person_icon.png',
+                                          fit: BoxFit.cover,
+                                        ),
+                                ),
+                              ),
+                            ),
                           ),
                           Column(
                             children: [
@@ -213,18 +183,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                     fontSize: 30, color: Colors.white),
                               ),
-                               SizedBox(
+                              SizedBox(
                                 height: SizeConfig.screenHeight / 75.6,
                               ),
                               Column(
-                                children: [
-                                  BlocBuilder<AppBloc, AuthFirebaseState>(
-                                    builder: (context, state) => state.status ==
-                                            AppStatus.authenticated
-                                        ? Text('${user.email}')
-                                        : const Text('Cùng nhau khám phá nhé'),
-                                  ),
-                                  const Divider(),
+                                children: const [
+                                  Text('Cùng nhau khám phá nhé'),
+                                  Divider(),
                                 ],
                               )
                             ],
@@ -241,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                height: SizeConfig.screenHeight / 15.12 ,
+                                height: SizeConfig.screenHeight / 15.12,
                                 width: SizeConfig.screenWidth / 3.6,
                                 decoration: BoxDecoration(
                                     color: Colors.orangeAccent,
@@ -258,7 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       )),
                                 ),
                               ),
-                               SizedBox(
+                              SizedBox(
                                 height: SizeConfig.screenHeight / 37.8,
                               ),
                               Container(
@@ -291,7 +256,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       )),
                                 ),
                               ),
-                               SizedBox(
+                              SizedBox(
                                 height: SizeConfig.screenHeight / 37.8,
                               ),
                               Container(
@@ -309,13 +274,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                 SizedBox(
+                SizedBox(
                   height: SizeConfig.screenHeight / 75.6,
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height / 2.5,
-                  margin:  EdgeInsets.symmetric(horizontal: SizeConfig.screenWidth / 18),
-                  padding:  EdgeInsets.symmetric(horizontal: SizeConfig.screenWidth / 24),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.screenWidth / 18),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.screenWidth / 24),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
@@ -338,7 +305,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Row(
                                     children: [
                                       icons[index],
-                                       SizedBox(
+                                      SizedBox(
                                         width: SizeConfig.screenWidth / 18,
                                       ),
                                       Text(
@@ -355,14 +322,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )),
                   ),
                 ),
-                 SizedBox(
+                SizedBox(
                   height: SizeConfig.screenHeight / 75.6,
                 ),
-                CustomButton(
-                    onPressed: () {
-                      context.read<AuthenticationSerivce>().signOut();
-                    },
-                    text: 'Đăng xuất'),
+                CustomButton(onPressed: () {}, text: 'Đăng xuất'),
               ],
             ),
           ),

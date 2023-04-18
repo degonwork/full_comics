@@ -1,32 +1,12 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:full_comics/config/size_config.dart';
-// import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
-// import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_state.dart';
-import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
-// import 'package:full_comics/data/models/validation_bloc/validation_bloc.dart';
-// import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
-import 'package:full_comics/ui/login/bloc/auth_event.dart';
-// import 'package:full_comics/ui/home/home_screen.dart';
-// import 'package:full_comics/ui/library/library_screen.dart';
-// import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
-// import 'package:full_comics/ui/login/bloc/auth_event.dart';
-// import 'package:full_comics/ui/login/bloc/auth_state.dart';
 import 'package:full_comics/ui/login/cubit/login_cubit.dart';
 import 'package:full_comics/ui/sign_up_screen/sign_up_screen.dart';
 import 'package:full_comics/widget/custom_button.dart';
 
-// import 'package:full_comics/widget/custom_textfield.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-
-// import '../../authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
 import 'bloc/auth_bloc.dart';
 
-// import 'package:path/path.dart';
-// import 'package:flutter/src/widgets/framework.dart';
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
   static MaterialPage page() {
@@ -38,7 +18,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => LoginCubit(context.read<AuthenticationSerivce>()),
+      create: (_) => LoginCubit(),
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state.status == LoginStatus.failure) {
@@ -56,7 +36,6 @@ class Login extends StatelessWidget {
 }
 
 class LoginScreen extends StatefulWidget {
-
   const LoginScreen({super.key});
 
   @override
@@ -66,28 +45,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AuthBloc? _authBloc;
-  //  AuthenticationSerivce? _authenticationSerivce;
+  //  AuthenticationService? _authenticationService;
   //  AppBloc? _appBloc;
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   bool passToggle = true;
-  // final GoogleSignIn _googleSignIn = GoogleSignIn();
-  // GoogleSignInAccount? account;
-  // ValidationBloc _validationBloc = ValidationBloc();
 
   @override
   void initState() {
     super.initState();
-    // _validationBloc = ValidationBloc();
-    // _appBloc = BlocProvider.of<AppBloc>(context);
-    // _authWithGoogle(context);
-    // _authenticationSerivce = AuthenticationSerivce();
     _authBloc = BlocProvider.of(context);
-    // _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-    //   setState(() {
-    //     this.account = account;
-    //   });
-    // });
   }
 
   @override
@@ -109,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           )),
-          padding:  EdgeInsets.only(
+          padding: EdgeInsets.only(
             top: SizeConfig.screenHeight / 75.6,
             left: SizeConfig.screenWidth / 24,
             right: SizeConfig.screenWidth / 24,
@@ -141,8 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                             fontSize: 40, fontWeight: FontWeight.bold),
                       ),
-                       SizedBox(
-                        height: SizeConfig.screenHeight / 75.6 ,
+                      SizedBox(
+                        height: SizeConfig.screenHeight / 75.6,
                       ),
                       SizedBox(
                         width: SizeConfig.screenHeight * 0.132,
@@ -153,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                 SizedBox(
+                SizedBox(
                   height: SizeConfig.screenHeight / 75.6,
                 ),
                 Form(
@@ -162,10 +129,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding:  EdgeInsets.symmetric(
-                              horizontal: SizeConfig.screenWidth / 36,
-                              vertical: SizeConfig.screenHeight / 75.6,
-                              ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: SizeConfig.screenWidth / 36,
+                            vertical: SizeConfig.screenHeight / 75.6,
+                          ),
                           child: TextFormField(
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -189,11 +156,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderRadius: BorderRadius.circular(20))),
                           ),
                         ),
-                         SizedBox(
+                        SizedBox(
                           height: SizeConfig.screenHeight / 75.6,
                         ),
                         Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: SizeConfig.screenWidth / 36),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: SizeConfig.screenWidth / 36),
                           child: TextFormField(
                             onChanged:
                                 context.read<LoginCubit>().onPasswordChanged,
@@ -235,31 +203,29 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Quên mật khẩu ?',
                               style: TextStyle(color: Colors.yellow),
                             )),
-                         SizedBox(
+                        SizedBox(
                           height: SizeConfig.screenHeight / 75.6,
                         ),
                         CustomButton(
                           onPressed: () {
-                            if(_formKey.currentState!.validate()){
-                            context.read<LoginCubit>().state.status ==
-                                    LoginStatus.loading
-                                ? const CircularProgressIndicator()
-                                : context
-                                    .read<LoginCubit>()
-                                    .onLoginWithEmailAndPasswordPressed();
-                            _authBloc!.add(LoginEvent(
-                                password: password.text, email: email.text));
-                          
-                            }
+                            // if (_formKey.currentState!.validate()) {
+                            //   context.read<LoginCubit>().state.status ==
+                            //           LoginStatus.loading
+                            //       ? const CircularProgressIndicator()
+                            //       : context
+                            //           .read<LoginCubit>()
+                            //           .onLoginWithEmailAndPasswordPressed();
+                            //   _authBloc!.add(LoginEvent(
+                            //       password: password.text, email: email.text));
+                            // }
                           },
-                        
                           text: 'Đăng nhập',
                         ),
-                         SizedBox(
+                        SizedBox(
                           height: SizeConfig.screenHeight / 37.8,
                         ),
                         const Center(child: Text('Bạn có thể đăng nhập với')),
-                         SizedBox(
+                        SizedBox(
                           height: SizeConfig.screenHeight / 75.6,
                         ),
                         Row(
@@ -272,19 +238,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                 icon: Image.asset(
                                     'assets/vo_luyen_dinh_phong/google_PNG19635.png',
                                     fit: BoxFit.cover),
-                                onPressed: () async{
-                                 context.read<LoginCubit>().onLoginWithGoogle();
+                                onPressed: () async {
+                                  // context
+                                  //     .read<LoginCubit>()
+                                  //     .onLoginWithGoogle();
                                 },
                               ),
                             ),
-                             SizedBox(
+                            SizedBox(
                               width: SizeConfig.screenWidth / 36,
                             ),
                             IconButton(
                               iconSize: 50,
                               icon: const Icon(Icons.facebook_rounded),
-                              onPressed: ()async {
-                               context.read<LoginCubit>().onLoginWithFacebook();
+                              onPressed: () async {
+                                // context
+                                //     .read<LoginCubit>()
+                                //     .onLoginWithFacebook();
                               },
                             ),
                           ],
@@ -294,23 +264,33 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text('Bạn chưa có tài khoản ?'),
-                               SizedBox(
+                              SizedBox(
                                 width: SizeConfig.screenWidth / 36,
                               ),
                               TextButton(
                                   onPressed: () {
-                                    Navigator.push(context, PageRouteBuilder(
-                                      transitionDuration: const Duration(milliseconds: 400),
-                                      transitionsBuilder: (context,animation,secAnimation,child){
-                                        return SlideTransition(
-                                          position: Tween<Offset>(begin:const Offset(1, 0),end: Offset.zero).animate(animation),
-                                          child: child,
-                                          );
-                                      },
-                                      pageBuilder: (context,animation,secAnimation){
-                                        return const SignUpScreen();
-                                      }
-                                      ));
+                                    Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                            transitionDuration: const Duration(
+                                                milliseconds: 400),
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secAnimation,
+                                                child) {
+                                              return SlideTransition(
+                                                position: Tween<Offset>(
+                                                        begin:
+                                                            const Offset(1, 0),
+                                                        end: Offset.zero)
+                                                    .animate(animation),
+                                                child: child,
+                                              );
+                                            },
+                                            pageBuilder: (context, animation,
+                                                secAnimation) {
+                                              return const SignUpScreen();
+                                            }));
                                   },
                                   child: const Text(
                                     'Đăng ký ngay',

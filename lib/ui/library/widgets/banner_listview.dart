@@ -18,106 +18,113 @@ class BannerListview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final CommicDB commicDB = CommicDB.instance;
-    return FutureBuilder(
-        future: commicDB.readListHotCommic(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<HotComic>> snapshot) {
-          if (snapshot.hasData) {
-            return Container(
-              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.0265),
-              height: SizeConfig.screenHeight * 0.266,
-              child: CarouselSlider.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index, index1) {
-                 return CachedNetworkImage(
-                  imageUrl: snapshot.data![index].image.toString(),
-                  imageBuilder: (context,imageProvider){
-                    return Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(image: imageProvider,fit: BoxFit.fill),
-                      ),
-                    );
-                  },
-                  placeholder: (context,url) => const CircularProgressIndicator(),
-                  errorWidget: (context,url,error) => const Icon(Icons.error),
-                  );
-                  // return Container(
-                  //   decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(10),
-                  //       image: DecorationImage(
-                  //           image: NetworkImage(
-                  //               snapshot.data![index].image.toString()),
-                  //           fit: BoxFit.fill)),
-                  // );
-                },
-                options: CarouselOptions(
-                  height: SizeConfig.screenHeight * 0.265,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.8,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 3),
-                  autoPlayAnimationDuration: const Duration(milliseconds: 500),
-                  autoPlayCurve: Curves.easeInOut,
-                  enlargeCenterPage: true,
-                  enlargeFactor: 0.3,
-                  scrollDirection: Axis.horizontal,
-                ),
-              ),
-            );
-          }
-         
-          return const CircularProgressIndicator();
-        });
-    // return BlocBuilder<FetchHotCommicCubit, FetchHotMangaState>(
-    //   builder: (context, state) {
-    //     if (state is FetchLoading) {
-    //       return const CircularProgressIndicator();
-    //     } else if(state is FetchError){
-    //       return  const Text('Lỗi tải về');
-    //     } else if(state is FetchLoaded){
-    //       final listHotCommic = state.listHotCommic;
-    //       return listHotCommic.isEmpty
-    //        ? const Text('Không thể tải thành công')
-    //        : Container(
-    //         padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.0265),
-    //         height: SizeConfig.screenHeight * 0.266,
-    //         decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.circular(20),
-    //         ),
-    //         child: CarouselSlider.builder(
-    //           itemCount: listHotCommic.length,
-    //            itemBuilder: (context,index, index1){
-    //             return Container(
-    //               decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.circular(10),
-    //                 image: DecorationImage(image: NetworkImage(listHotCommic[index].image),fit: BoxFit.fill),
-    //               ),
-    //             );
-    //            },
-    //               options: CarouselOptions(
-    //       height: SizeConfig.screenHeight * 0.265,
-    //       aspectRatio: 16 / 9,
-    //       viewportFraction: 0.8,
-    //       initialPage: 0,
-    //       enableInfiniteScroll: true,
-    //       reverse: false,
-    //       autoPlay: true,
-    //       autoPlayInterval: const Duration(seconds: 3),
-    //       autoPlayAnimationDuration: const Duration(milliseconds: 500),
-    //       autoPlayCurve: Curves.easeInOut,
-    //       enlargeCenterPage: true,
-    //       enlargeFactor: 0.3,
-    //       scrollDirection: Axis.horizontal,
-    //             ),
-    //        )
-    //        );
-    //     }
-    //      return const  SizedBox.shrink();
-    //   },
-    // );
+    // final CommicDB commicDB = CommicDB.instance;
+    // return
+      // FutureBuilder(
+      //   future: commicDB.readListHotCommic(),
+      //   builder:
+      //       (BuildContext context, AsyncSnapshot<List<HotComic>> snapshot) {
+      //     if (snapshot.hasData) {
+      //       return Container(
+      //         padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.0265),
+      //         height: SizeConfig.screenHeight * 0.266,
+      //         child: CarouselSlider.builder(
+      //           itemCount: snapshot.data!.length,
+      //           itemBuilder: (context, index, index1) {
+      //             return CachedNetworkImage(
+      //               imageUrl: snapshot.data![index].image.toString(),
+      //               imageBuilder: (context, imageProvider) {
+      //                 return Container(
+      //                   decoration: BoxDecoration(
+      //                     image: DecorationImage(
+      //                         image: imageProvider, fit: BoxFit.fill),
+      //                   ),
+      //                 );
+      //               },
+      //               placeholder: (context, url) =>
+      //                   const CircularProgressIndicator(),
+      //               errorWidget: (context, url, error) =>
+      //                   const Icon(Icons.error),
+      //             );
+      //             // return Container(
+      //             //   decoration: BoxDecoration(
+      //             //       borderRadius: BorderRadius.circular(10),
+      //             //       image: DecorationImage(
+      //             //           image: NetworkImage(
+      //             //               snapshot.data![index].image.toString()),
+      //             //           fit: BoxFit.fill)),
+      //             // );
+      //           },
+      //           options: CarouselOptions(
+      //             height: SizeConfig.screenHeight * 0.265,
+      //             aspectRatio: 16 / 9,
+      //             viewportFraction: 0.8,
+      //             initialPage: 0,
+      //             enableInfiniteScroll: true,
+      //             reverse: false,
+      //             autoPlay: true,
+      //             autoPlayInterval: const Duration(seconds: 3),
+      //             autoPlayAnimationDuration: const Duration(milliseconds: 500),
+      //             autoPlayCurve: Curves.easeInOut,
+      //             enlargeCenterPage: true,
+      //             enlargeFactor: 0.3,
+      //             scrollDirection: Axis.horizontal,
+      //           ),
+      //         ),
+      //       );
+      //     }
+          // return const CircularProgressIndicator();
+          return BlocBuilder<FetchHotCommicCubit, FetchHotMangaState>(
+            builder: (context, state) {
+              if (state is FetchLoading) {
+                return const CircularProgressIndicator();
+              } else if (state is FetchError) {
+                return const Text('Lỗi tải về');
+              } else if (state is FetchLoaded) {
+                final listHotCommic = state.listHotCommic;
+                return listHotCommic.isEmpty
+                    ? const Text('Không thể tải thành công')
+                    : Container(
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.screenHeight * 0.0265),
+                        height: SizeConfig.screenHeight * 0.266,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: CarouselSlider.builder(
+                          itemCount: listHotCommic.length,
+                          itemBuilder: (context, index, index1) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        listHotCommic[index].image.image_thumnail_rectangle!),
+                                    fit: BoxFit.fill),
+                              ),
+                            );
+                          },
+                          options: CarouselOptions(
+                            height: SizeConfig.screenHeight * 0.265,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.8,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            reverse: false,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 500),
+                            autoPlayCurve: Curves.easeInOut,
+                            enlargeCenterPage: true,
+                            enlargeFactor: 0.3,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                        ));
+              }
+              return const SizedBox.shrink();
+            },
+          );
+        // });
   }
 }
