@@ -34,7 +34,7 @@ class RootApp extends StatelessWidget {
           bottomNavigationBar: Bottombar(
             currentIndex: state.navigatorValue,
             onTap: (int value ){
-              context.read<BottombarBloc>().add(ChangeBottombarEvent(listScreen[value]));
+              context.read<BottombarBloc>().add(ChangeBottombarEvent(listScreen[value], value));
             },
           ),
         );

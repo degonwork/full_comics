@@ -7,10 +7,11 @@ class BottombarEvent extends Equatable{
 }
 class ChangeBottombarEvent extends BottombarEvent{
   final Widget currentScreen;
-  
-  ChangeBottombarEvent(this.currentScreen);
+  final int navigationValue;
+
+  ChangeBottombarEvent(this.currentScreen, this.navigationValue);
 
   
   @override
-  List<Object> get props => [currentScreen];
+  List<Object> get props => [currentScreen, navigationValue];
 }

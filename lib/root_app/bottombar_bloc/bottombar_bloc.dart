@@ -8,7 +8,7 @@ class BottombarBloc extends Bloc<BottombarEvent,BottombarState> {
   }
   void _onChangeBottombarState(ChangeBottombarEvent event,Emitter<BottombarState> emit){
     try {
-      emit(BottombarState(currentScreen: event.currentScreen));
+      emit(BottombarState(currentScreen: event.currentScreen,navigatorValue: event.navigationValue));
     } catch (e) {
       emit(ChangeBottombarError());
     }

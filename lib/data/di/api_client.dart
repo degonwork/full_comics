@@ -1,6 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 class ApiClient{
+
+  Future getData(String uri) async {
+    try {
+      final response = await http.get(Uri.parse(uri));
+      return response;
+    } catch (e) {
+      return http.Response(e.toString(), 1);
+    }
+  }
   Future<dynamic> postLogin(String apiLogin,dynamic body) async{
     final response = await http.post(Uri.parse('https://reqres.in/api/login'),body: body);
     var responseJson = _returnResponseLogin(response);
