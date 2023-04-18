@@ -1,19 +1,17 @@
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_bloc.dart';
 import 'package:full_comics/authenticaiton_firebase/bloc/auth_firebase_state.dart';
+import 'package:full_comics/config/size_config.dart';
 import 'package:full_comics/data/models/service_models/auth_firebase_model-service/authentication_firebase.dart';
+import 'package:full_comics/main.dart';
+import 'package:full_comics/ui/home/child_screen/notifi_screen/notifi_screen.dart';
 
-// import 'package:full_comics/main.dart';
-// import 'package:full_comics/ui/login/cubit/login_cubit.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:full_comics/data/authentication_repository/authentication_repository.dart';
-// import 'package:full_comics/ui/login/bloc/auth_bloc.dart';
-// import 'package:full_comics/ui/login/bloc/auth_state.dart';
-// import 'package:full_comics/ui/login/login_screen.dart';
+import 'package:full_comics/ui/profile/child_screen/rate_screen.dart';
+import 'package:full_comics/ui/profile/child_screen/setup_screen.dart';
+import 'package:full_comics/ui/profile/child_screen/invite_screen.dart';
 import 'package:full_comics/widget/custom_button.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -29,6 +27,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ImagePicker image = ImagePicker();
   @override
   Widget build(BuildContext context) {
+    List<Widget> listNavigator = const [
+      NotifiScreen(),
+      InviteScreen(),
+      RateScreen(),
+      SetupScreen(),
+    ];
     final ImagePicker image = ImagePicker();
     final user = context.select((AppBloc appBloc) => appBloc.state.user);
     List<String> list = const [
@@ -69,30 +73,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                  margin:  EdgeInsets.only(
+                    top: SizeConfig.screenHeight / 75.6,
+                    left: SizeConfig.screenWidth / 18,
+                    right: SizeConfig.screenWidth /18,
+                      ),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  height: MediaQuery.of(context).size.height / 3,
+                       EdgeInsets.symmetric(
+                        horizontal: SizeConfig.screenWidth / 24,
+                        vertical: SizeConfig.screenHeight / 50.4
+                         ),
+                  height: MediaQuery.of(context).size.height / 2.85,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
                         color: Colors.white.withOpacity(0.2),
                       ),
                     ],
-                    // color: Colors.red,
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        
                         children: [
-                          SizedBox.square(
-                            dimension: 70,
+                         CircleAvatar(
+                            radius: SizeConfig.screenWidth / 9,
                             child: user.photo != null
-                                ? Image.network(
-                                    user.photo!,
-                                    fit: BoxFit.cover,
+                                ? CircleAvatar(
+                                    radius: 40,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(40),
+                                      child: Image.network(
+                                        user.photo!,
+                                        fit: BoxFit.scaleDown,
+                                      ),
+                                    ),
                                   )
                                 : InkWell(
                                     onTap: () {
@@ -105,10 +123,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   topRight:
                                                       Radius.circular(10)),
                                             ),
-                                            height: 140,
-                                            width: 375,
-                                            margin: const EdgeInsets.symmetric(
-                                              horizontal: 20,
+                                            height: SizeConfig.screenHeight / 5.4,
+                                            width: SizeConfig.screenWidth,
+                                            margin:  EdgeInsets.symmetric(
+                                              horizontal: SizeConfig.screenWidth / 18,
                                             ),
                                             child: Column(
                                               mainAxisAlignment:
@@ -165,15 +183,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       );
                                     },
                                     child: CircleAvatar(
-                                     
+                                      backgroundColor: Colors.white,
+                                      radius: 40,
                                       backgroundImage: imageFile != null
                                           ? Image.file(File(imageFile!.path))
                                               .image
                                           : Image.asset(
                                                   'assets/vo_luyen_dinh_phong/person_icon.png')
                                               .image,
-                                      backgroundColor: Colors.white,
-                                      radius: 50,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(40),
+                                        child: imageFile != null
+                                            ? Image.file(
+                                                File(imageFile!.path),
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Image.asset(
+                                                'assets/vo_luyen_dinh_phong/person_icon.png',
+                                                fit: BoxFit.cover,
+                                              ),
+                                      ),
                                     ),
                                   ),
                           ),
@@ -184,8 +213,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                     fontSize: 30, color: Colors.white),
                               ),
-                              const SizedBox(
-                                height: 10,
+                               SizedBox(
+                                height: SizeConfig.screenHeight / 75.6,
                               ),
                               Column(
                                 children: [
@@ -202,9 +231,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
+                      //  SizedBox(
+                      //   height: SizeConfig.screenHeight / 50.4,
+                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -212,8 +241,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                height: 50,
-                                width: 100,
+                                height: SizeConfig.screenHeight / 15.12 ,
+                                width: SizeConfig.screenWidth / 3.6,
                                 decoration: BoxDecoration(
                                     color: Colors.orangeAccent,
                                     borderRadius: BorderRadius.circular(20)),
@@ -229,14 +258,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       )),
                                 ),
                               ),
-                              const Icon(Icons.card_giftcard, size: 50)
+                               SizedBox(
+                                height: SizeConfig.screenHeight / 37.8,
+                              ),
+                              Container(
+                                height: SizeConfig.screenHeight / 15.12,
+                                width: SizeConfig.screenWidth / 7.2,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/vo_luyen_dinh_phong/37060092c38af527b818fdcdc659e3eb.png'))),
+                              )
                             ],
                           ),
                           Column(
                             children: [
                               Container(
-                                height: 50,
-                                width: 100,
+                                height: SizeConfig.screenHeight / 15.12,
+                                width: SizeConfig.screenWidth / 3.6,
                                 decoration: BoxDecoration(
                                     color: Colors.orangeAccent,
                                     borderRadius: BorderRadius.circular(20)),
@@ -252,9 +291,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       )),
                                 ),
                               ),
-                              const Icon(
-                                Icons.wallet_outlined,
-                                size: 50,
+                               SizedBox(
+                                height: SizeConfig.screenHeight / 37.8,
+                              ),
+                              Container(
+                                height: SizeConfig.screenHeight / 15.12,
+                                width: SizeConfig.screenWidth / 7.2,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/vo_luyen_dinh_phong/848597.png'))),
                               )
                             ],
                           ),
@@ -263,13 +309,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: SizeConfig.screenHeight / 75.6,
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height / 2.5,
-                  margin: const EdgeInsets.only(left: 20, right: 20),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  margin:  EdgeInsets.symmetric(horizontal: SizeConfig.screenWidth / 18),
+                  padding:  EdgeInsets.symmetric(horizontal: SizeConfig.screenWidth / 24),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
@@ -285,12 +331,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         (index) => Column(
                               children: [
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () => navigatorKey.currentState!.push(
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              listNavigator[index])),
                                   child: Row(
                                     children: [
                                       icons[index],
-                                      const SizedBox(
-                                        width: 20,
+                                       SizedBox(
+                                        width: SizeConfig.screenWidth / 18,
                                       ),
                                       Text(
                                         list[index],
@@ -306,8 +355,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: SizeConfig.screenHeight / 75.6,
                 ),
                 CustomButton(
                     onPressed: () {

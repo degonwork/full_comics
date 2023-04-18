@@ -76,4 +76,5 @@ dependencies {
     implementation "androidx.multidex:multidex:$multidex_version"
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    implementation 'com.facebook.android:facebook-login:latest.release'
 }

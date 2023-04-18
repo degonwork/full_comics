@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:full_comics/config/size_config.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 // import 'package:flutter/src/widgets/placeholder.dart';
 
@@ -10,8 +11,8 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
-      width: 300,
+      height: SizeConfig.screenHeight / 15.12,
+      width: SizeConfig.screenWidth / 1.2,
       child: MaterialButton(
         onPressed: onPressed,
         color: Colors.yellow,
